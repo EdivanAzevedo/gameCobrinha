@@ -1,7 +1,9 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+const audio = new Audio("../assets/sound2.wav");
 const size = 30;
+let direction, loopId;
 
 const snake = [{ x: 270, y: 240 }];
 
@@ -27,8 +29,6 @@ const food = {
     y: randomPosition(),
     color: randomColor(),
 };
-
-let direction, loopId;
 
 const drawSnake = () => {
     ctx.fillStyle = "#ddd";
@@ -95,11 +95,22 @@ const checkEat = () => {
 
     if (head.x == food.x && head.y == food.y) {
         snake.push(head);
-        (food.x = randomPosition()),
-            (food.y = randomPosition()),
-            (food.color = randomColor());
+        audio.play();
+
+        let x = randomPosition();
+        let y = randomPosition();
+
+        while (snake.find((position) => position.x == x && position.y == y)) {
+            x = randomPosition();
+            y = randomPosition();
+        }
+        food.x = x;
+        food.y = y;
+        food.color = randomColor();
     }
 };
+
+
 
 const gameLoop = () => {
     clearInterval(loopId);
