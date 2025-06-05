@@ -19,8 +19,11 @@ const incrementScore = () => {
     score.innerText = +score.innerText + 10;
 };
 
+// Generates a random integer between `min` and `max` (inclusive).
+// The previous implementation subtracted `min` after multiplying and could
+// return values outside the desired range when `min` was greater than zero.
 const randomNumber = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.round(Math.random() * (max - min) + min);
 };
 
 const randomPosition = () => {
@@ -89,7 +92,7 @@ const drawGrid = () => {
     ctx.lineWidth = 1;
     ctx.strokeStyle = "#191919";
 
-    for (i = 30; i < canvas.width; i += 30) {
+    for (let i = 30; i < canvas.width; i += 30) {
         ctx.beginPath();
         ctx.lineTo(i, 0);
         ctx.lineTo(i, 600);
